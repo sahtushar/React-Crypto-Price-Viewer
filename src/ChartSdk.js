@@ -120,6 +120,7 @@ const CryptoPriceChartSDK = ({coins}) => {
       </div>
       {selectedCoins?.map((coin) => (
         <div key={coin} className="chartWrapper">
+          <p style={{color:"blue", fontSize:"25px", fontWeight:"bold"}}>{coin}</p>
           <ChartComponent
             data={coinData[coin]}
             preferences={userPreferences[coin] || []}

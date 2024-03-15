@@ -17,8 +17,12 @@ padding: 10px; */
 
 .chartWrapper{
   display: flex;
+  margin-top: 5px;
   flex-direction: column;
   justify-content: center;
+  border: 1px solid lightgray;
+  margin-bottom: 15px;
+  padding-bottom:10px ;
 }
 .chartWrapper .lineChart{
   display: flex;
