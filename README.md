@@ -1,6 +1,7 @@
 # Crypto Price Viewer
 
 Crypto Price Viewer is a web application that allows users to view price charts for selected cryptocurrencies and customize their view preferences for each coin. Users can select which graphs (or lines) they want to view for each coin and save their preferences, which are maintained across sessions using browser local storage.
+View Project at https://hqkc3l-3000.csb.app
 
 ## Features
 
