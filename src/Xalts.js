@@ -6,10 +6,32 @@ import React, { useEffect, useState } from "react";
 
 import ChartComponent from "./ChartComponent";
 
-const App = () => {
+const CryptoPriceChartSDK = ({coins}) => {
   const [selectedCoins, setSelectedCoins] = useState([]);
   const [coinData, setCoinData] = useState({});
   const [userPreferences, setUserPreferences] = useState({});
+
+  // // Load user preferences from local storage
+  // useEffect(() => {
+  //   // Set the first preference checkbox checked initially for each selected coin
+  //   const initialPreferences = {};
+  //   selectedCoins.forEach(coin => {
+  //     initialPreferences[coin] = ['open']; // Selecting 'open' preference by default
+  //   });
+  //   setUserPreferences(initialPreferences);
+  // }, [selectedCoins]);
+  
+  useEffect(() => {
+    const storedPreferences = localStorage.getItem("userPreferences");
+    if (storedPreferences) {
+      setUserPreferences(JSON.parse(storedPreferences));
+    }
+  }, []);
+
+  // Save user preferences to local storage
+  useEffect(() => {
+    localStorage.setItem("userPreferences", JSON.stringify(userPreferences));
+  }, [userPreferences]);
 
   // Fetch data for selected coins
   useEffect(() => {
@@ -52,34 +74,35 @@ const App = () => {
     fetchData();
   }, [selectedCoins]);
 
+  // Function to set preferences for a coin
   const togglePreference = (coin, preference) => {
+    // Retrieve the current preferences for the specified coin
     const currentPreferences = userPreferences[coin] || [];
+
+    // Check if the preference is already included in the current preferences
     const isPreferenceIncluded = currentPreferences.includes(preference);
+
+    // Update the preferences based on the toggle action
     let updatedPreferences;
     if (isPreferenceIncluded) {
-      updatedPreferences = currentPreferences.filter(pref => pref !== preference);
+      // If the preference is included, remove it from the preferences
+      updatedPreferences = currentPreferences.filter(
+        (pref) => pref !== preference
+      );
     } else {
+      // If the preference is not included, add it to the preferences
       updatedPreferences = [...currentPreferences, preference];
     }
 
-    setUserPreferences(prevPreferences => ({
+    // Update the user preferences state with the updated preferences for the specified coin
+    setUserPreferences((prevPreferences) => ({
       ...prevPreferences,
       [coin]: updatedPreferences,
     }));
   };
-  
-  useEffect(() => {
-    // Set the first preference checkbox checked initially for each selected coin
-    const initialPreferences = {};
-    selectedCoins.forEach(coin => {
-      initialPreferences[coin] = ['open']; // Selecting 'open' preference by default
-    });
-    setUserPreferences(initialPreferences);
-  }, [selectedCoins]);
 
   return (
     <div className="App">
-      <h1>Crypto Price Viewer</h1>
       <div>
         <div>
           <p>Select any coin...</p>
@@ -92,28 +115,34 @@ const App = () => {
             }
             multiple
           >
-            <option value="bitcoin">Bitcoin</option>
-            <option value="ethereum">Ethereum</option>
-            <option value="0xblack">0xblack</option>
+            {
+              coins.map(item=>{
+                return <option key={item} value={item}>{item}</option>
+              })
+            }
           </select>
         </div>
-
       </div>
-      {selectedCoins.map((coin) => (
+      {selectedCoins?.map((coin) => (
         <div key={coin} className="chartWrapper">
-          <h2>{coin.toUpperCase()} Price Chart</h2>
           <ChartComponent
             data={coinData[coin]}
             preferences={userPreferences[coin] || []}
+            onTogglePreference={(preference) =>
+              togglePreference(coin, preference)
+            }
           />
           <div>
-            <p>Select preferences...</p>
-            {['open', 'high', 'low', 'close'].map(preference => (
+            <p style={{color:"black"}}>Select Preferences to <span style={{color:"red"}}>Start</span>...</p>
+            {["open", "high", "low", "close"].map((preference) => (
               <label key={preference}>
                 {preference.charAt(0).toUpperCase() + preference.slice(1)}
                 <input
                   type="checkbox"
-                  checked={userPreferences[coin] && userPreferences[coin].includes(preference)}
+                  checked={
+                    userPreferences[coin] &&
+                    userPreferences[coin].includes(preference)
+                  }
                   onChange={() => togglePreference(coin, preference)}
                 />
               </label>
@@ -125,4 +154,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default CryptoPriceChartSDK;

@@ -1,13 +1,13 @@
 import './index.css';
 
+import { App } from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import XaltsChart from './Xalts';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <XaltsChart/>
+    <App/>
 );
 
 // If you want to start measuring performance in your app, pass a function
