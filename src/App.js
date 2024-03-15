@@ -1,6 +1,6 @@
 import "./App.css";
 
-import CryptoPriceChartSDK from "./Xalts";
+import CryptoPriceChartSDK from "./ChartSdk";
 import React from "react";
 
 export const App = ()=>{
