@@ -20,4 +20,4 @@ Crypto Price Viewer is a web application that allows users to view price charts 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/crypto-price-viewer.git
+git clone https://github.com/sahtushar/React-Crypto-Price-Viewer.git
