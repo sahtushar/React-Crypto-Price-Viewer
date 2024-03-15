@@ -74,27 +74,22 @@ const CryptoPriceChartSDK = ({coins}) => {
     fetchData();
   }, [selectedCoins]);
 
-  // Function to set preferences for a coin
   const togglePreference = (coin, preference) => {
-    // Retrieve the current preferences for the specified coin
+
     const currentPreferences = userPreferences[coin] || [];
 
-    // Check if the preference is already included in the current preferences
     const isPreferenceIncluded = currentPreferences.includes(preference);
 
-    // Update the preferences based on the toggle action
     let updatedPreferences;
     if (isPreferenceIncluded) {
-      // If the preference is included, remove it from the preferences
+
       updatedPreferences = currentPreferences.filter(
         (pref) => pref !== preference
       );
     } else {
-      // If the preference is not included, add it to the preferences
+
       updatedPreferences = [...currentPreferences, preference];
     }
-
-    // Update the user preferences state with the updated preferences for the specified coin
     setUserPreferences((prevPreferences) => ({
       ...prevPreferences,
       [coin]: updatedPreferences,
